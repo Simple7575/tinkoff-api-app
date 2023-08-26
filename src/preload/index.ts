@@ -1,8 +1,16 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { EApi } from '../types/window'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  login: (data) => ipcRenderer.send('login', data),
+  send: (channel, data) => ipcRenderer.send(channel, data),
+  on: (channel: string, cb) => ipcRenderer.on(channel, (event, ...args) => cb(...args)),
+  removeListener: (eventName: string, listener: (...args: any[]) => void) =>
+    ipcRenderer.removeListener(eventName, listener),
+  removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
+} satisfies EApi
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -15,8 +23,6 @@ if (process.contextIsolated) {
     console.error(error)
   }
 } else {
-  // @ts-ignore (define in dts)
   window.electron = electronAPI
-  // @ts-ignore (define in dts)
   window.api = api
 }

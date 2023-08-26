@@ -1,0 +1,24 @@
+.intervals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2rem;
+  row-gap: 0.3rem;
+
+  label {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid;
+
+    input {
+      cursor: pointer;
+    }
+  }
+}
+
+.schedule_button {
+  max-width: max-content;
+  margin-left: auto;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+}

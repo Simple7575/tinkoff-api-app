@@ -1,7 +1,13 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, globalShortcut } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+//
+import { createServer } from './server/index.js'
+import { loginHandler } from './events/handlers/login'
+import { scheduleHandler } from './events/handlers/schedule'
+
+const isDev = process.env.NODE_ENV !== 'production'
 
 function createWindow(): void {
   // Create the browser window.
@@ -25,6 +31,19 @@ function createWindow(): void {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+
+  // Open devtools
+  if (isDev) mainWindow.webContents.openDevTools()
+
+  // Shortcuts
+  globalShortcut.register('f5', function () {
+    console.log('f5 is pressed')
+    mainWindow.reload()
+  })
+
+  // Events
+  ipcMain.on('login', loginHandler)
+  ipcMain.on('schedule', scheduleHandler)
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
@@ -50,6 +69,8 @@ app.whenReady().then(() => {
   })
 
   createWindow()
+
+  // createServer()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
