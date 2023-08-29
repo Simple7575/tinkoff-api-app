@@ -3,6 +3,12 @@ import { startSchedule } from '../../tinkoff/schedule'
 // types
 import { TIntervals } from '../../../types/tinkoff'
 
-export const scheduleHandler = async (event: IpcMainEvent, data: TIntervals) => {
-  startSchedule(data)
+type Data = {
+  scheduleIntervals: TIntervals
+  candleIntervals: TIntervals
+}
+
+export const scheduleHandler = async (event: IpcMainEvent, data: Data) => {
+  console.log(data)
+  // startSchedule(data.scheduleIntervals, data.scheduleIntervals)
 }

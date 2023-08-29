@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 //
-import { createServer } from './server/index.js'
+// import { createServer } from './server/index.js'
 import { loginHandler } from './events/handlers/login'
 import { scheduleHandler } from './events/handlers/schedule'
 

@@ -1,4 +1,4 @@
-.intervals {
+.scheduleIntervals {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 2rem;
@@ -16,7 +16,27 @@
   }
 }
 
-.schedule_button {
+.analysConfigs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2rem;
+  row-gap: 0.3rem;
+
+  .item {
+    display: flex;
+    gap: 0.5rem;
+    max-width: max-content;
+    border-bottom: 1px solid;
+
+    label,
+    input {
+      cursor: pointer;
+    }
+  }
+}
+
+.scheduleButton {
+  margin-top: 0.5rem;
   max-width: max-content;
   margin-left: auto;
   padding: 0.2rem 0.5rem;

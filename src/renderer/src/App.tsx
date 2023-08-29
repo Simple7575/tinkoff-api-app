@@ -1,16 +1,15 @@
-import {
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider
-} from 'react-router-dom'
+// Had to Replace BrowserRouter with HashRouter.
+// The reasoning: BrowserRouter is meant for request-based environments whereas HashRouter is meant for file-based environments.
+import { Route, createHashRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
+import { Provider as ReduxProvider } from 'react-redux'
+import { store } from './redux/store'
 import Header from './components/Header'
 // Pages
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Main from './pages/Main'
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route index element={<Home />} />
@@ -59,12 +58,14 @@ const router = createBrowserRouter(
 
 function App(): JSX.Element {
   return (
-    <div className="container">
-      <Header />
-      <RouterProvider router={router} />
+    <ReduxProvider store={store}>
+      <div className="container">
+        <Header />
+        <RouterProvider router={router} />
 
-      {/* <Login /> */}
-    </div>
+        {/* <Login /> */}
+      </div>
+    </ReduxProvider>
   )
 }
 

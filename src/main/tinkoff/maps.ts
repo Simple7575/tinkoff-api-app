@@ -29,3 +29,19 @@ export const IntervalToMsMap = {
   '7 days': 6.048e8,
   '30 days': 2.592e9
 }
+
+export const intervalsToSchedulMap = {
+  '1m': '*/1 * * * *', // At every 1th min.
+  '2m': '*/2 * * * *', // At every 2 min.
+  '3m': '*/3 * * * *', // At every 3 min.
+  '5m': '*/5 * * * *', // At every 5th min.
+  '10m': '*/10 * * * *', // At every 10th min.
+  '15m': '*/15 * * * *', // At every 15th min.
+  '30m': '*/30 * * * *', // At every 30th min.
+  '1h': '0 * * * *', // At every hour.
+  '2h': '0 */2 * * *', // At every 2 hrs.
+  '4h': '0 */4 * * *', // At every 4th hr.
+  '1d': '50 1 * * *', // Every day at 1:50AM.
+  '7 days': '0 0 * * 0', // At every weekend.
+  '30 days': '0 0 1 * *' // At 00:00 on day-of-month 1.
+}
