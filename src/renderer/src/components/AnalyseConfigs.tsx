@@ -4,8 +4,11 @@ import styles from '../assets/main.module.scss'
 import { BUY, SELL, update } from '@renderer/redux/slices/analyseConfigsSlice'
 // types
 import { type IntervalTinkoff, type TDeal } from 'src/types/tinkoff'
+type Props = {
+  dealType: TDeal
+}
 
-export default function AnalysConfigs() {
+export default function AnalysConfigs({ dealType }: Props) {
   const candleIntervals = useTypedSelector((state) => state.candleIntervals)
   const analyseConfigs = useTypedSelector((state) => state.analyseConfigs)
   const dispatch = useTypedDispatch()
@@ -13,12 +16,12 @@ export default function AnalysConfigs() {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name.split('-')[1] as IntervalTinkoff
     const deal = e.target.value as TDeal
-    dispatch(update({ name, deal }))
+    dispatch(update({ name, deal, dealType }))
   }
 
   return (
     <div>
-      <h3>Analyse Configs</h3>
+      <h3>Analyse Configs {dealType}</h3>
       <div className={styles.analysConfigs}>
         {candleIntervals['1m'] ? (
           <div className={styles.item}>
@@ -27,10 +30,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-1m"
+                name={`radion-1m-${dealType}`}
                 id="radio-1m-buy"
                 value={BUY}
-                checked={analyseConfigs['1m'] === BUY}
+                checked={analyseConfigs[dealType]['1m'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -38,10 +41,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-1m"
+                name={`radion-1m-${dealType}`}
                 id="radio-1m-sell"
                 value={SELL}
-                checked={analyseConfigs['1m'] === SELL}
+                checked={analyseConfigs[dealType]['1m'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -54,10 +57,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-2m"
+                name={`radion-2m-${dealType}`}
                 id="radio-2m-buy"
                 value={BUY}
-                checked={analyseConfigs['2m'] === BUY}
+                checked={analyseConfigs[dealType]['2m'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -65,10 +68,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-2m"
+                name={`radion-2m-${dealType}`}
                 id="radio-2m-sell"
                 value={SELL}
-                checked={analyseConfigs['2m'] === SELL}
+                checked={analyseConfigs[dealType]['2m'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -81,10 +84,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-3m"
+                name={`radion-3m-${dealType}`}
                 id="radio-3m-buy"
                 value={BUY}
-                checked={analyseConfigs['3m'] === BUY}
+                checked={analyseConfigs[dealType]['3m'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -92,10 +95,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-3m"
+                name={`radion-3m-${dealType}`}
                 id="radio-3m-sell"
                 value={SELL}
-                checked={analyseConfigs['3m'] === SELL}
+                checked={analyseConfigs[dealType]['3m'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -108,10 +111,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-5m"
+                name={`radion-5m-${dealType}`}
                 id="radio-5m-buy"
                 value={BUY}
-                checked={analyseConfigs['5m'] === BUY}
+                checked={analyseConfigs[dealType]['5m'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -119,10 +122,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-5m"
+                name={`radion-5m-${dealType}`}
                 id="radio-5m-sell"
                 value={SELL}
-                checked={analyseConfigs['5m'] === SELL}
+                checked={analyseConfigs[dealType]['5m'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -135,10 +138,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-10m"
+                name={`radion-10m-${dealType}`}
                 id="radio-10m-buy"
                 value={BUY}
-                checked={analyseConfigs['10m'] === BUY}
+                checked={analyseConfigs[dealType]['10m'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -146,10 +149,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-10m"
+                name={`radion-10m-${dealType}`}
                 id="radio-10m-sell"
                 value={SELL}
-                checked={analyseConfigs['10m'] === SELL}
+                checked={analyseConfigs[dealType]['10m'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -162,10 +165,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-15m"
+                name={`radion-15m-${dealType}`}
                 id="radio-15m-buy"
                 value={BUY}
-                checked={analyseConfigs['15m'] === BUY}
+                checked={analyseConfigs[dealType]['15m'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -173,10 +176,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-15m"
+                name={`radion-15m-${dealType}`}
                 id="radio-15m-sell"
                 value={SELL}
-                checked={analyseConfigs['15m'] === SELL}
+                checked={analyseConfigs[dealType]['15m'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -189,10 +192,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-30m"
+                name={`radion-30m-${dealType}`}
                 id="radio-30m-buy"
                 value={BUY}
-                checked={analyseConfigs['30m'] === BUY}
+                checked={analyseConfigs[dealType]['30m'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -200,10 +203,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-30m"
+                name={`radion-30m-${dealType}`}
                 id="radio-30m-sell"
                 value={SELL}
-                checked={analyseConfigs['30m'] === SELL}
+                checked={analyseConfigs[dealType]['30m'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -216,10 +219,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-1h"
+                name={`radion-1h-${dealType}`}
                 id="radio-1h-buy"
                 value={BUY}
-                checked={analyseConfigs['1h'] === BUY}
+                checked={analyseConfigs[dealType]['1h'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -227,10 +230,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-1h"
+                name={`radion-1h-${dealType}`}
                 id="radio-1h-sell"
                 value={SELL}
-                checked={analyseConfigs['1h'] === SELL}
+                checked={analyseConfigs[dealType]['1h'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -243,10 +246,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-2h"
+                name={`radion-2h-${dealType}`}
                 id="radio-2h-buy"
                 value={BUY}
-                checked={analyseConfigs['2h'] === BUY}
+                checked={analyseConfigs[dealType]['2h'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -254,10 +257,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-2h"
+                name={`radion-2h-${dealType}`}
                 id="radio-2h-sell"
                 value={SELL}
-                checked={analyseConfigs['2h'] === SELL}
+                checked={analyseConfigs[dealType]['2h'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -270,10 +273,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-4h"
+                name={`radion-4h-${dealType}`}
                 id="radio-4h-buy"
                 value={BUY}
-                checked={analyseConfigs['4h'] === BUY}
+                checked={analyseConfigs[dealType]['4h'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -281,10 +284,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-4h"
+                name={`radion-4h-${dealType}`}
                 id="radio-4h-sell"
                 value={SELL}
-                checked={analyseConfigs['4h'] === SELL}
+                checked={analyseConfigs[dealType]['4h'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -297,10 +300,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-1d"
+                name={`radion-1d-${dealType}`}
                 id="radio-1d-buy"
                 value={BUY}
-                checked={analyseConfigs['1d'] === BUY}
+                checked={analyseConfigs[dealType]['1d'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -308,10 +311,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-1d"
+                name={`radion-1d-${dealType}`}
                 id="radio-1d-sell"
                 value={SELL}
-                checked={analyseConfigs['1d'] === SELL}
+                checked={analyseConfigs[dealType]['1d'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -324,10 +327,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-7 days"
+                name={`radion-7 days-${dealType}`}
                 id="radio-7d-buy"
                 value={BUY}
-                checked={analyseConfigs['7 days'] === BUY}
+                checked={analyseConfigs[dealType]['7 days'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -335,10 +338,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-7 days"
+                name={`radion-7 days-${dealType}`}
                 id="radio-7d-sell"
                 value={SELL}
-                checked={analyseConfigs['7 days'] === SELL}
+                checked={analyseConfigs[dealType]['7 days'] === SELL}
                 onChange={handleChange}
               />
             </label>
@@ -351,10 +354,10 @@ export default function AnalysConfigs() {
               BUY
               <input
                 type="radio"
-                name="radion-30 days"
+                name={`radion-30 days-${dealType}`}
                 id="radio-30d-buy"
                 value={BUY}
-                checked={analyseConfigs['30 days'] === BUY}
+                checked={analyseConfigs[dealType]['30 days'] === BUY}
                 onChange={handleChange}
               />
             </label>
@@ -362,10 +365,10 @@ export default function AnalysConfigs() {
               SELL
               <input
                 type="radio"
-                name="radion-30 days"
+                name={`radion-30 days-${dealType}`}
                 id="radio-30d-sell"
                 value={SELL}
-                checked={analyseConfigs['30 days'] === SELL}
+                checked={analyseConfigs[dealType]['30 days'] === SELL}
                 onChange={handleChange}
               />
             </label>

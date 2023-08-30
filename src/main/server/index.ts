@@ -3,7 +3,7 @@ import cors from 'cors'
 
 // import { bot } from './bot/index.js'
 import { PORT } from '../envConstants.js'
-import { connectDB } from './db/index.js'
+import { connectDB } from '../db/index.js'
 // import { getMACDTinkoff } from './handlers/getMACDTinkoff.js'
 // import { getMACDYahoo } from './handlers/getMACDYahoo.js'
 // import { startSchedule } from './cron/cron.js'

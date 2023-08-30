@@ -1,14 +1,20 @@
 import { IpcMainEvent } from 'electron'
+import { writeJsonAsync } from '../../utils/files'
 import { startSchedule } from '../../tinkoff/schedule'
 // types
-import { TIntervals } from '../../../types/tinkoff'
+import { type TIntervals, type TAnalyseConfigs } from '../../../types/tinkoff'
 
 type Data = {
   scheduleIntervals: TIntervals
   candleIntervals: TIntervals
+  analyseConfigs: TAnalyseConfigs
 }
 
 export const scheduleHandler = async (event: IpcMainEvent, data: Data) => {
-  console.log(data)
-  // startSchedule(data.scheduleIntervals, data.scheduleIntervals)
+  const { scheduleIntervals, candleIntervals, analyseConfigs } = data
+
+  await writeJsonAsync('analyseConfigs', analyseConfigs)
+  await writeJsonAsync('candleIntervals', candleIntervals)
+
+  startSchedule(scheduleIntervals)
 }

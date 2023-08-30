@@ -2,12 +2,16 @@ import { app, shell, BrowserWindow, ipcMain, globalShortcut } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-//
-// import { createServer } from './server/index.js'
+
 import { loginHandler } from './events/handlers/login'
 import { scheduleHandler } from './events/handlers/schedule'
+import { readJsonSync, writeJsonSync } from './utils/files'
+import { connectDB } from './db/index'
 
 const isDev = process.env.NODE_ENV !== 'production'
+
+/**This function logs as console log and sends logs to renderer*/
+export let consoleLog: (...args: any) => void
 
 function createWindow(): void {
   // Create the browser window.
@@ -24,7 +28,19 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
+    const preferences = readJsonSync('preferences')
+
+    mainWindow.setPosition(preferences['window.position'][0], preferences['window.position'][1])
     mainWindow.show()
+  })
+
+  mainWindow.on('moved', () => {
+    const preferences = readJsonSync('preferences')
+
+    preferences['window.position'] = mainWindow.getPosition()
+
+    writeJsonSync('preferences', preferences)
+    mainWindow.webContents.send('log', 'Hello from main')
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -34,6 +50,12 @@ function createWindow(): void {
 
   // Open devtools
   if (isDev) mainWindow.webContents.openDevTools()
+
+  // Loger
+  consoleLog = (...args) => {
+    console.log(...args)
+    mainWindow.webContents.send('log', ...args)
+  }
 
   // Shortcuts
   globalShortcut.register('f5', function () {
@@ -70,7 +92,9 @@ app.whenReady().then(() => {
 
   createWindow()
 
-  // createServer()
+  connectDB().then(() => {
+    console.log('db connected.')
+  })
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

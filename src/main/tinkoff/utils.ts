@@ -1,14 +1,18 @@
 import { TinkoffInvestApi } from 'tinkoff-invest-api'
 import { IntervalMapTinkoff } from './maps'
 import axios from 'axios'
-import { promises as fs } from 'fs'
+import { MACD } from 'technicalindicators'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 // types
 import { type HistoricCandle } from 'tinkoff-invest-api/cjs/generated/marketdata'
-import { type InstrumentConfigInterface } from '../../types/instrumentConfig'
+import { type InstrumentConfigInterface } from '../../types/tinkoff'
 import { type ClassCode, type IntervalTinkoff } from '../../types/tinkoff'
+import { readJsonAsync } from '../utils/files'
 
-export const getFigiFromTicker = async (token: string, ticker: string, classCode: ClassCode) => {
-  const api = new TinkoffInvestApi({ token })
+export const getFigiFromTicker = async (ticker: string, classCode: ClassCode) => {
+  const { tinkoffApiToken } = await readJsonAsync('credentials')
+  const api = new TinkoffInvestApi({ token: tinkoffApiToken })
 
   const { instrument } = await api.instruments.getInstrumentBy({
     idType: 2,
@@ -22,13 +26,13 @@ export const getFigiFromTicker = async (token: string, ticker: string, classCode
 }
 
 export const getCleanedCandlesTinkoffRest = async (
-  token: string,
   interval: IntervalTinkoff,
   figi: string,
   base = new Date(),
   ticker?: string
 ) => {
-  const api = new TinkoffInvestApi({ token })
+  const { tinkoffApiToken } = await readJsonAsync('credentials')
+  const api = new TinkoffInvestApi({ token: tinkoffApiToken })
 
   const body = {
     figi,
@@ -43,7 +47,7 @@ export const getCleanedCandlesTinkoffRest = async (
     {
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tinkoffApiToken}`,
         'Content-Type': 'application/json'
       }
     }
@@ -62,14 +66,58 @@ export const getCleanedCandlesTinkoffRest = async (
   return cleanedCandles
 }
 
-export const getInstrumnetConfigs = async (
+export const readInstrumnetConfigs = async (
   ticker: string
 ): Promise<InstrumentConfigInterface | void> => {
   try {
-    const buffer = await fs.readFile(`./configs/${ticker}.json`)
+    const buffer = await readFile(join(__dirname, `../../configs/instruments/${ticker}.json`))
     const configs = JSON.parse(buffer.toString()) as InstrumentConfigInterface
     return configs
   } catch (error) {
     console.error(error)
   }
+}
+
+export const getCloseValues = (candles: HistoricCandle[]) => {
+  const close = candles.map((candle) => {
+    if (candle.close?.nano === undefined) return candle.close?.units
+    const result = Number(candle.close?.units) + candle.close?.nano / 1e9
+    return result
+  }) as number[]
+
+  return close
+}
+
+export const getAllValues = (candles: HistoricCandle[]) => {
+  const values = []
+
+  for (const candle of candles) {
+    // nano can be zero and zero is falsy thats why we had bug in folowing logic
+    // if (candle.open?.nano && candle.close?.nano && candle.high?.nano && candle.low?.nano) {
+    const result = {
+      open: Number(candle.open?.units) + candle.open?.nano! / 1e9,
+      close: Number(candle.close?.units) + candle.close?.nano! / 1e9,
+      high: Number(candle.high?.units) + candle.high?.nano! / 1e9,
+      low: Number(candle.low?.units) + candle.low?.nano! / 1e9,
+      date: new Date(candle.time!)
+    }
+    values.push(result)
+  }
+
+  return values
+}
+
+export const getMACD = (close: number[]) => {
+  const macdInput = {
+    values: close,
+    fastPeriod: 12,
+    slowPeriod: 26,
+    signalPeriod: 9,
+    SimpleMAOscillator: false,
+    SimpleMASignal: false
+  }
+
+  const macd = MACD.calculate(macdInput)
+
+  return macd
 }

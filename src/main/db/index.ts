@@ -1,5 +1,5 @@
 import mongoose, { type Mongoose } from 'mongoose'
-import { MONGO_URI } from '../../envConstants.js'
+import { MONGO_URI } from '../envConstants.js'
 
 mongoose.set('strictQuery', false)
 export const connectDB = async (): Promise<Mongoose> => {

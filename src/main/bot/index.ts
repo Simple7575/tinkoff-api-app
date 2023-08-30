@@ -1,15 +1,12 @@
 import { Bot } from 'grammy'
-import { join } from 'path'
-import * as fs from 'fs/promises'
 import { CHAT_ID } from '../envConstants.js'
+import { readJsonAsync } from '../utils/files.js'
 
 export const sendMessage = async (message: string) => {
   try {
-    const buffer = await fs.readFile(join(__dirname, '../../configs/credentials.json'))
+    const credentials = await readJsonAsync('credentials')
 
-    const credentials = buffer.toJSON().data
-
-    console.log(credentials)
+    console.log('send message needs to be tested')
 
     // const bot = new Bot(BotToken)
 

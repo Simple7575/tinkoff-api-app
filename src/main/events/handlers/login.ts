@@ -3,8 +3,7 @@ import { TinkoffInvestApi, TinkoffApiError } from 'tinkoff-invest-api'
 import { Bot } from 'grammy'
 import mongoose from 'mongoose'
 import { CandleInterval } from 'tinkoff-invest-api/cjs/generated/marketdata'
-import * as fs from 'fs/promises'
-import { join } from 'path'
+import { writeJsonAsync } from '../../utils/files'
 
 const checkTinkoffApiToken = async (token: string) => {
   try {
@@ -48,19 +47,6 @@ const checkDBUri = async (URI: string) => {
   }
 }
 
-const wrightCredentials = async (data: {}) => {
-  try {
-    await fs.writeFile(join(__dirname, '../../configs/credentials.json'), JSON.stringify(data))
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const validateCredentials = async () => {
-  const credentials = await fs.readFile(join(__dirname, '../../configs/credentials.json'))
-  console.log(credentials.toJSON().data)
-}
-
 export const loginHandler = async (event: IpcMainEvent, data: any) => {
   const { tinkoffApiToken, botToken, dbUri } = data
   const [isTinkoffTokenValid, isBotTokenValid, isDBUriValid] = await Promise.allSettled([
@@ -85,7 +71,7 @@ export const loginHandler = async (event: IpcMainEvent, data: any) => {
   )
     return
 
-  await wrightCredentials({ tinkoffApiToken, botToken, dbUri })
+  await writeJsonAsync('credentials', { tinkoffApiToken, botToken, dbUri })
 
   event.reply('login-success', { tinkoffApiToken, botToken, dbUri })
 }

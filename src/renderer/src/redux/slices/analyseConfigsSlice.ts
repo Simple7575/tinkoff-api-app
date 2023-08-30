@@ -6,28 +6,51 @@ export const BUY = 'BUY' as const
 export const SELL = 'SELL' as const
 
 const initialState = {
-  '1m': BUY,
-  '2m': BUY,
-  '3m': BUY,
-  '5m': BUY,
-  '10m': BUY,
-  '15m': BUY,
-  '30m': BUY,
-  '1h': BUY,
-  '2h': BUY,
-  '4h': BUY,
-  '1d': BUY,
-  '7 days': BUY,
-  '30 days': BUY
+  BUY: {
+    '1m': BUY,
+    '2m': BUY,
+    '3m': BUY,
+    '5m': BUY,
+    '10m': BUY,
+    '15m': BUY,
+    '30m': BUY,
+    '1h': BUY,
+    '2h': BUY,
+    '4h': BUY,
+    '1d': BUY,
+    '7 days': BUY,
+    '30 days': BUY
+  },
+  SELL: {
+    '1m': BUY,
+    '2m': BUY,
+    '3m': BUY,
+    '5m': BUY,
+    '10m': BUY,
+    '15m': BUY,
+    '30m': BUY,
+    '1h': BUY,
+    '2h': BUY,
+    '4h': BUY,
+    '1d': BUY,
+    '7 days': BUY,
+    '30 days': BUY
+  }
 }
 
 type InitialState = {
-  [key in IntervalTinkoff]: TDeal
+  BUY: {
+    [key in IntervalTinkoff]: TDeal
+  }
+  SELL: {
+    [key in IntervalTinkoff]: TDeal
+  }
 }
 
 type Payload = {
   name: IntervalTinkoff
   deal: TDeal
+  dealType: keyof InitialState
 }
 
 const storageIntervals = localStorage.getItem('analyse-configs')
@@ -40,10 +63,16 @@ const analyseConfigsSlice = createSlice({
     update: (state, action: PayloadAction<Payload>) => {
       localStorage.setItem(
         'analyse-configs',
-        JSON.stringify({ ...state, [action.payload.name]: action.payload.deal })
+        JSON.stringify({
+          ...state,
+          [action.payload.dealType]: {
+            ...state[action.payload.dealType],
+            [action.payload.name]: action.payload.deal
+          }
+        })
       )
 
-      state[action.payload.name] = action.payload.deal
+      state[action.payload.dealType][action.payload.name] = action.payload.deal
     }
   }
 })

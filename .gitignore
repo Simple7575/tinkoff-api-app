@@ -3,4 +3,4 @@ dist
 out
 *.log*
 .vscode
-configs
+configs/credentials.json
