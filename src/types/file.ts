@@ -1,9 +1,9 @@
 // prettier-ignore
-import { type TIntervals, type TickerAndClasscode, type TAnalyseConfigs, type TCredentials } from './tinkoff'
+import { type TIntervals, type TickerAndClasscode, type TAnalyseConfigs, type TCredentials, type HistogramConfigs } from './tinkoff'
 import { type Preferences } from './preference'
 
 // prettier-ignore
-export type TFileName = 'analyseConfigs' | 'credentials' | 'preferences' | 'tickersAndClasscodes' | 'candleIntervals'
+export type TFileName = 'analyseConfigs' | 'credentials' | 'preferences' | 'tickersAndClasscodes' | 'candleIntervals' | 'histogramConfigs'
 
 // prettier-ignore
 export type TReadJsonAsync = < T extends TFileName, R = T extends 'analyseConfigs'
@@ -13,7 +13,9 @@ export type TReadJsonAsync = < T extends TFileName, R = T extends 'analyseConfig
     : T extends 'preferences'
     ? Preferences
     : T extends 'tickersAndClasscodes'
-    ? TickerAndClasscode :
+    ? TickerAndClasscode 
+    : T extends 'histogramConfigs'
+    ? HistogramConfigs :
     TIntervals
 >( fileName: T ) => Promise<R>
 
@@ -25,6 +27,8 @@ export type TReadJsonSync = < T extends TFileName, R = T extends 'analyseConfigs
     : T extends 'preferences'
     ? Preferences
     : T extends 'tickersAndClasscodes'
-    ? TickerAndClasscode :
+    ? TickerAndClasscode 
+    : T extends 'histogramConfigs'
+    ? HistogramConfigs :
     TIntervals
 >( fileName: T ) => R

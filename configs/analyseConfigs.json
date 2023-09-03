@@ -1,10 +1,10 @@
 {
     "BUY": {
-        "5m": "BUY",
-        "15m": "SELL"
+        "1m": "BUY",
+        "5m": "BUY"
     },
     "SELL": {
-        "5m": "BUY",
-        "15m": "BUY"
+        "1m": "BUY",
+        "5m": "BUY"
     }
 }

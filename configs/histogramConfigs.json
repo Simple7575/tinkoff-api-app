@@ -1,0 +1,244 @@
+{
+    "1m": [
+        {
+            "index": "h1",
+            "compare": ">"
+        },
+        {
+            "index": "h2",
+            "compare": ">"
+        },
+        {
+            "index": "h3",
+            "compare": "<"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "2m": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "3m": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "5m": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        },
+        {
+            "index": "h5",
+            "compare": ">"
+        }
+    ],
+    "10m": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "15m": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "30m": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "1h": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "2h": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "4h": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "1d": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "7 days": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        }
+    ],
+    "30 days": [
+        {
+            "index": "h1",
+            "compare": "<"
+        },
+        {
+            "index": "h2",
+            "compare": "<"
+        },
+        {
+            "index": "h3",
+            "compare": ">"
+        },
+        {
+            "index": "h4",
+            "compare": ">"
+        },
+        {
+            "index": "h5",
+            "compare": ">"
+        }
+    ]
+}

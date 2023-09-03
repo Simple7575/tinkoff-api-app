@@ -1,22 +1,18 @@
 import { MouseEvent, useEffect } from 'react'
-import styles from '../assets/main.module.scss'
+import { useTypedSelector } from '@renderer/hooks/useTypedRedux'
 import ScheduleIntervals from '@renderer/components/ScheduleIntervals'
 import CandleIntervals from '@renderer/components/CandleIntervals'
 import AnalysConfigs from '@renderer/components/AnalyseConfigs'
-import { useTypedSelector } from '@renderer/hooks/useTypedRedux'
+import Histogram from '@renderer/components/Histogram'
+import styles from '../assets/main.module.scss'
 // types
-import { type TIntervals, type TAnalyseConfigs } from '../../../types/tinkoff'
-
-type Data = {
-  scheduleIntervals: TIntervals
-  candleIntervals: TIntervals
-  analyseConfigs: TAnalyseConfigs
-}
+import { type Data } from '../../../types/submitedData'
 
 export default function Main() {
   const scheduleIntervals = useTypedSelector((state) => state.scheduleIntervals)
   const candleIntervals = useTypedSelector((state) => state.candleIntervals)
   const analyseConfigs = useTypedSelector((state) => state.analyseConfigs)
+  const histogramConfigs = useTypedSelector((state) => state.histogramConfigs)
 
   const handleAnalyse = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     e.preventDefault()
@@ -33,6 +29,7 @@ export default function Main() {
         data.candleIntervals.push(key as any)
         data.analyseConfigs.BUY[key] = analyseConfigs.BUY[key]
         data.analyseConfigs.SELL[key] = analyseConfigs.SELL[key]
+        data.histogramConfigs = histogramConfigs
       }
     }
 
@@ -40,7 +37,7 @@ export default function Main() {
   }
 
   useEffect(() => {
-    window.api.on('log', (...args) => console.log(...args))
+    window.api.on('log', (...args: any) => console.log(...args))
 
     return () => {
       window.api.removeAllListeners('log')
@@ -54,6 +51,7 @@ export default function Main() {
       <CandleIntervals />
       <AnalysConfigs dealType={'BUY'} />
       <AnalysConfigs dealType={'SELL'} />
+      <Histogram />
       <button type="button" className={styles.scheduleButton} onClick={handleAnalyse}>
         Schedule
       </button>

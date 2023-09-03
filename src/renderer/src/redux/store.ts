@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import scheduleIntervalReducer from './slices/scheduleIntervalsSlice'
 import candleIntervalsReducer from './slices/candleIntervalsSclice'
 import analyseConfigsReducer from './slices/analyseConfigsSlice'
+import histogramConfigsReducer from './slices/histogramConfigsSlice'
 
 export const store = configureStore({
   reducer: {
     scheduleIntervals: scheduleIntervalReducer,
     candleIntervals: candleIntervalsReducer,
-    analyseConfigs: analyseConfigsReducer
+    analyseConfigs: analyseConfigsReducer,
+    histogramConfigs: histogramConfigsReducer
   }
 })
 

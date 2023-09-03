@@ -23,7 +23,6 @@ const reducer = (state: typeof initialForm, action: TAction) => {
       return { ...state, dbUri: action.payload }
     default:
       return state
-      break
   }
 }
 

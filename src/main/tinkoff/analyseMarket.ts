@@ -2,6 +2,7 @@ import { sendMessage } from '../bot'
 import { readInstrumnetConfigs, getCloseValues, getAllValues, getMACD } from './utils'
 import { readJsonAsync } from '../utils/files'
 import { lookUpInDB } from './lookUpInDB'
+import { consoleLog } from '../index'
 // types
 import { type TickerAndClasscode, type IntervalTinkoff } from '../../types/tinkoff'
 
@@ -23,38 +24,52 @@ const analyse = async (
   try {
     const candles = await lookUpInDB(ticker, interval, shceduledInterval)
     if (!candles) return { [interval]: EMPTY }
+
     const close = getCloseValues(candles)
     const allValues = getAllValues(candles)
-    const quantityOfValues = 6
-    const lastFourValues = allValues.slice(allValues.length - quantityOfValues)
-    const c1 = lastFourValues[0].date
-    const c2 = lastFourValues[1].date
-    const c3 = lastFourValues[2].date
-    const c4 = lastFourValues[3].date
-    const c5 = lastFourValues[4].date
-    const c6 = lastFourValues[5].date
-    const macd = getMACD(close)
-    const quantityOfMacd = 4
 
-    const lastFourResults = macd.slice(macd.length - quantityOfMacd)
-    if (lastFourResults.length < quantityOfMacd) {
+    const quantityOfValues = 6
+    const lastValues = allValues.slice(allValues.length - quantityOfValues)
+    const c1 = lastValues[0]
+    const c2 = lastValues[1]
+    const c3 = lastValues[2]
+    const c4 = lastValues[3]
+    const c5 = lastValues[4]
+    const c6 = lastValues[5]
+
+    const quantityOfMacd = 5
+    const macd = getMACD(close)
+    const lastResults = macd.slice(macd.length - quantityOfMacd)
+    lastResults.reverse()
+
+    if (lastResults.length < quantityOfMacd) {
       return { [interval]: EMPTY }
     }
 
-    const fourthRes = lastFourResults[0].histogram! // 3
-    const thirdRes = lastFourResults[1].histogram! // 2
-    const secondToLastRes = lastFourResults[2].histogram! // 1
-    const lastRes = lastFourResults[3].histogram! // 0
+    const h1 = lastResults[0].histogram! // 0 newest
+    const h2 = lastResults[1].histogram! // 1
+    const h3 = lastResults[2].histogram! // 2
+    const h4 = lastResults[3].histogram! // 3
+    const h5 = lastResults[4].histogram! // 4 oldest
 
-    //  3>2>1<0 то сигнал к покупке (значение1), а если 3<2<1>0 то сигнал к продаже (значение2)
-    if (fourthRes > thirdRes && thirdRes > secondToLastRes && secondToLastRes < lastRes) {
-      // console.log(new Date()) // sechas
-      // console.log(new Date().getTime()) // sechas v milisekundax
-      // console.log(new Date(candleBDate)) // data posledney svechi
-      // console.log(new Date(candleBDate).getTime()) // data posledney svechi v milisekundax
-      // dlya sravnenia dvux dat nujno perevesti v milisekundi eto unix vremya
+    const histogram = await readJsonAsync('histogramConfigs')
+
+    let toEval = ''
+    for (let i = 0; i < histogram[interval].length; i++) {
+      if (i + 2 === histogram[interval].length) {
+        // prettier-ignore
+        toEval += `${histogram[interval][i].index}  ${histogram[interval][i].compare} ${histogram[interval][i + 1].index}`
+        break
+      } else {
+        // prettier-ignore
+        toEval += `${histogram[interval][i].index}  ${histogram[interval][i].compare} ${histogram[interval][i + 1].index} &&`
+      }
+    }
+    console.log(interval, toEval)
+
+    if (h1 > h2 && h2 < h3 && h3 < h4) {
       return { [interval]: BUY }
-    } else if (fourthRes < thirdRes && thirdRes < secondToLastRes && secondToLastRes > lastRes) {
+    } else if (h1 < h2 && h2 > h3 && h3 > h4) {
       return { [interval]: SELL }
     } else {
       return { [interval]: EMPTY }
@@ -97,11 +112,11 @@ export const analyseMarket = async (scheduleIntervals: IntervalTinkoff) => {
       })
 
       if (isBuy) {
-        console.log(BUY)
+        consoleLog(BUY)
         await sendMessage(`${scheduleIntervals} ${ticker.ticker} ${BUY}`)
         // Sell
       } else if (isSell) {
-        console.log(SELL)
+        consoleLog(SELL)
         await sendMessage(`${scheduleIntervals} ${ticker.ticker} ${SELL}`)
       }
     } catch (error) {
