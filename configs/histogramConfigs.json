@@ -69,10 +69,6 @@
         {
             "index": "h4",
             "compare": ">"
-        },
-        {
-            "index": "h5",
-            "compare": ">"
         }
     ],
     "10m": [

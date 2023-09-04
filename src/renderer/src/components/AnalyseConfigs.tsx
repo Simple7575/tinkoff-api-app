@@ -20,7 +20,7 @@ export default function AnalysConfigs({ dealType }: Props) {
   }
 
   return (
-    <div>
+    <div className={styles.analysConfigsWrapper}>
       <h3>Analyse Configs {dealType}</h3>
       <div className={styles.analysConfigs}>
         {candleIntervals['1m'] ? (

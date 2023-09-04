@@ -15,7 +15,7 @@ export default function ScheduleIntervals() {
   }
 
   return (
-    <div>
+    <div className={styles.scheduleIntervalsWrapper}>
       <h3>Schedule</h3>
       <div className={styles.scheduleIntervals}>
         <label htmlFor="schedule-interval-1m">

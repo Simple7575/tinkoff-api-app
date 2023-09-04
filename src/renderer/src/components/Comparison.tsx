@@ -42,7 +42,7 @@ export default function Comparison({ interval }: Props) {
   return (
     <div>
       {candleIntervals[interval] ? (
-        <div>
+        <div className={styles.comparisonWrapper}>
           <div className={styles.buttons}>
             {interval}
             <button type="button" onClick={handleAdd} data-interval={interval}>

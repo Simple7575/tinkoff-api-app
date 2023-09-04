@@ -37,7 +37,7 @@ const analyse = async (
     const c5 = lastValues[4]
     const c6 = lastValues[5]
 
-    const quantityOfMacd = 5
+    const quantityOfMacd = 4
     const macd = getMACD(close)
     const lastResults = macd.slice(macd.length - quantityOfMacd)
     lastResults.reverse()
@@ -49,8 +49,7 @@ const analyse = async (
     const h1 = lastResults[0].histogram! // 0 newest
     const h2 = lastResults[1].histogram! // 1
     const h3 = lastResults[2].histogram! // 2
-    const h4 = lastResults[3].histogram! // 3
-    const h5 = lastResults[4].histogram! // 4 oldest
+    const h4 = lastResults[3].histogram! // 3 oldest
 
     const histogram = await readJsonAsync('histogramConfigs')
 

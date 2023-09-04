@@ -45,15 +45,14 @@ export default function Main() {
   }, [])
 
   return (
-    <div>
-      <h2>Main</h2>
+    <div className={styles.mainContainer}>
       <ScheduleIntervals />
       <CandleIntervals />
       <AnalysConfigs dealType={'BUY'} />
       <AnalysConfigs dealType={'SELL'} />
       <Histogram />
       <button type="button" className={styles.scheduleButton} onClick={handleAnalyse}>
-        Schedule
+        START SCHEDULE
       </button>
     </div>
   )

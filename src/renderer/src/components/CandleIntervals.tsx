@@ -15,7 +15,7 @@ export default function CandleIntervals() {
   }
 
   return (
-    <div>
+    <div className={styles.scheduleIntervalsWrapper}>
       <h3>Candle</h3>
       <div className={styles.scheduleIntervals}>
         <label htmlFor="candle-interval-1m">

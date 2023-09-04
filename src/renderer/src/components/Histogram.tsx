@@ -12,7 +12,7 @@ export default function Histograms() {
   const dispatch = useTypedDispatch()
 
   return (
-    <div className={styles.histogram}>
+    <div className={styles.histogramWrapper}>
       <h3>Histogram</h3>
       {Object.keys(candleIntervals).map((interval) => (
         <Comparison interval={interval as IntervalTinkoff} key={interval} />
