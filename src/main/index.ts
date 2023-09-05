@@ -8,7 +8,7 @@ import { scheduleHandler } from './events/handlers/schedule'
 import { readJsonSync, writeJsonSync } from './utils/files'
 import { connectDB } from './db/index'
 
-const isDev = process.env.NODE_ENV !== 'production'
+const isDev = process.env.NODE_ENV === 'development'
 
 /**This function logs as console log and sends logs to renderer*/
 export let consoleLog: (...args: any) => void
@@ -43,7 +43,7 @@ function createWindow(): void {
     preferences['window.position'] = mainWindow.getPosition()
 
     writeJsonSync('preferences', preferences)
-    mainWindow.webContents.send('log', 'Hello from main')
+    mainWindow.webContents.send('log', __dirname)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -60,7 +60,7 @@ function createWindow(): void {
     mainWindow.webContents.send('log', ...args)
   }
 
-  // Loger
+  // Eror loger
   consoleError = (...args) => {
     console.error(...args)
     mainWindow.webContents.send('error', ...args)
@@ -70,6 +70,11 @@ function createWindow(): void {
   globalShortcut.register('f5', function () {
     console.log('f5 is pressed')
     mainWindow.reload()
+  })
+
+  globalShortcut.register('f12', function () {
+    console.log('f12 is pressed')
+    mainWindow.webContents.openDevTools()
   })
 
   // Events

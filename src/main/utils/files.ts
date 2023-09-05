@@ -5,9 +5,12 @@ import { consoleError } from '../index'
 // types
 import { TReadJsonAsync, TReadJsonSync, TFileName } from '../../types/file'
 
+const isDev = process.env.NODE_ENV === 'development'
+const pathPrefix = isDev ? '../../configs' : '../../../configs'
+
 export const readJsonAsync: TReadJsonAsync = async (fileName) => {
   try {
-    const buffer = await readFile(join(__dirname, `../../configs/${fileName}.json`))
+    const buffer = await readFile(join(__dirname, `${pathPrefix}/${fileName}.json`))
     const data = JSON.parse(buffer.toString())
     return data
   } catch (error) {
@@ -18,7 +21,7 @@ export const readJsonAsync: TReadJsonAsync = async (fileName) => {
 export const writeJsonAsync = async (fileName: TFileName, file: any) => {
   try {
     await writeFile(
-      join(__dirname, `../../configs/${fileName}.json`),
+      join(__dirname, `${pathPrefix}/${fileName}.json`),
       JSON.stringify(file, null, 4)
     )
   } catch (error) {
@@ -28,7 +31,7 @@ export const writeJsonAsync = async (fileName: TFileName, file: any) => {
 
 export const readJsonSync: TReadJsonSync = (fileName) => {
   try {
-    const buffer = readFileSync(join(__dirname, `../../configs/${fileName}.json`))
+    const buffer = readFileSync(join(__dirname, `${pathPrefix}/${fileName}.json`))
     const data = JSON.parse(buffer.toString())
     return data
   } catch (error) {
@@ -38,7 +41,7 @@ export const readJsonSync: TReadJsonSync = (fileName) => {
 
 export const writeJsonSync = (fileName: TFileName, file: any) => {
   try {
-    writeFileSync(join(__dirname, `../../configs/${fileName}.json`), JSON.stringify(file, null, 4))
+    writeFileSync(join(__dirname, `${pathPrefix}/${fileName}.json`), JSON.stringify(file, null, 4))
   } catch (error) {
     consoleError(error)
   }

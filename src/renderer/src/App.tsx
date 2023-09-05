@@ -59,9 +59,11 @@ const router = createHashRouter(
 
 function App(): JSX.Element {
   useEffect(() => {
+    window.api.on('log', (...args: any) => console.log(...args))
     window.api.on('error', (...args: any) => console.log(...args))
 
     return () => {
+      window.api.removeAllListeners('log')
       window.api.removeAllListeners('error')
     }
   }, [])

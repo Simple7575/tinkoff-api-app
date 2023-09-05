@@ -36,14 +36,6 @@ export default function Main() {
     window.api.send('schedule', data)
   }
 
-  useEffect(() => {
-    window.api.on('log', (...args: any) => console.log(...args))
-
-    return () => {
-      window.api.removeAllListeners('log')
-    }
-  }, [])
-
   return (
     <div className={styles.mainContainer}>
       <ScheduleIntervals />
