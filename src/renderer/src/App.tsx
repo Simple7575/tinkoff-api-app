@@ -1,6 +1,7 @@
 // Had to Replace BrowserRouter with HashRouter.
 // The reasoning: BrowserRouter is meant for request-based environments whereas HashRouter is meant for file-based environments.
 import { Route, createHashRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
+import { useEffect } from 'react'
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from './redux/store'
 import Header from './components/Header'
@@ -57,6 +58,14 @@ const router = createHashRouter(
 )
 
 function App(): JSX.Element {
+  useEffect(() => {
+    window.api.on('error', (...args: any) => console.log(...args))
+
+    return () => {
+      window.api.removeAllListeners('error')
+    }
+  }, [])
+
   return (
     <ReduxProvider store={store}>
       <div className="container">

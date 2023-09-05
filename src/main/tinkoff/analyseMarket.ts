@@ -2,9 +2,14 @@ import { sendMessage } from '../bot'
 import { readInstrumnetConfigs, getCloseValues, getAllValues, getMACD } from './utils'
 import { readJsonAsync } from '../utils/files'
 import { lookUpInDB } from './lookUpInDB'
-import { consoleLog } from '../index'
+import { consoleError, consoleLog } from '../index'
 // types
-import { type TickerAndClasscode, type IntervalTinkoff } from '../../types/tinkoff'
+import {
+  type TickerAndClasscode,
+  type IntervalTinkoff,
+  type TIntervals,
+  type TAnalyseConfigs
+} from '../../types/tinkoff'
 
 const BUY = 'Buy' as const
 const SELL = 'Sell' as const
@@ -74,7 +79,7 @@ const analyse = async (
       return { [interval]: EMPTY }
     }
   } catch (error) {
-    console.error(error)
+    consoleError(error)
     return { [interval]: EMPTY }
   }
 }
@@ -83,11 +88,19 @@ export const analyseMarket = async (scheduleIntervals: IntervalTinkoff) => {
   const day = new Date().getDay()
   if (day === 0 || day === 6) return
 
-  const [tickersAndClasscodes, candleIntervals, analyseConfigs] = await Promise.all([
-    readJsonAsync('tickersAndClasscodes'),
-    readJsonAsync('candleIntervals'),
-    readJsonAsync('analyseConfigs')
-  ])
+  let tickersAndClasscodes: TickerAndClasscode
+  let candleIntervals: TIntervals
+  let analyseConfigs: TAnalyseConfigs
+
+  try {
+    ;[tickersAndClasscodes, candleIntervals, analyseConfigs] = await Promise.all([
+      readJsonAsync('tickersAndClasscodes'),
+      readJsonAsync('candleIntervals'),
+      readJsonAsync('analyseConfigs')
+    ])
+  } catch (error) {
+    consoleError(error)
+  }
 
   for (const ticker of tickersAndClasscodes) {
     try {
@@ -119,7 +132,7 @@ export const analyseMarket = async (scheduleIntervals: IntervalTinkoff) => {
         await sendMessage(`${scheduleIntervals} ${ticker.ticker} ${SELL}`)
       }
     } catch (error) {
-      console.error(error)
+      consoleError(error)
       continue
     }
   }

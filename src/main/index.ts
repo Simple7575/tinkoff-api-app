@@ -13,6 +13,9 @@ const isDev = process.env.NODE_ENV !== 'production'
 /**This function logs as console log and sends logs to renderer*/
 export let consoleLog: (...args: any) => void
 
+/**This function logs errors as console error and sends errors to renderer*/
+export let consoleError: (...args: any) => void
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -55,6 +58,12 @@ function createWindow(): void {
   consoleLog = (...args) => {
     console.log(...args)
     mainWindow.webContents.send('log', ...args)
+  }
+
+  // Loger
+  consoleError = (...args) => {
+    console.error(...args)
+    mainWindow.webContents.send('error', ...args)
   }
 
   // Shortcuts

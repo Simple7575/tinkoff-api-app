@@ -3,15 +3,20 @@ import { writeJsonAsync } from '../../utils/files'
 import { startSchedule } from '../../tinkoff/schedule'
 // types
 import { type Data } from '../../../types/submitedData'
+import { consoleError } from '../..'
 
 export const scheduleHandler = async (event: IpcMainEvent, data: Data) => {
-  const { scheduleIntervals, candleIntervals, analyseConfigs, histogramConfigs } = data
+  try {
+    const { scheduleIntervals, candleIntervals, analyseConfigs, histogramConfigs } = data
 
-  await Promise.all([
-    writeJsonAsync('analyseConfigs', analyseConfigs),
-    writeJsonAsync('candleIntervals', candleIntervals),
-    writeJsonAsync('histogramConfigs', histogramConfigs)
-  ])
+    await Promise.all([
+      writeJsonAsync('analyseConfigs', analyseConfigs),
+      writeJsonAsync('candleIntervals', candleIntervals),
+      writeJsonAsync('histogramConfigs', histogramConfigs)
+    ])
 
-  startSchedule(scheduleIntervals)
+    startSchedule(scheduleIntervals)
+  } catch (error) {
+    consoleError(error)
+  }
 }
