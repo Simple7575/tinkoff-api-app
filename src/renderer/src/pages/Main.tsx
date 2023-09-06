@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect } from 'react'
+import { MouseEvent, useState } from 'react'
 import { useTypedSelector } from '@renderer/hooks/useTypedRedux'
 import ScheduleIntervals from '@renderer/components/ScheduleIntervals'
 import CandleIntervals from '@renderer/components/CandleIntervals'
@@ -9,6 +9,7 @@ import styles from '../assets/main.module.scss'
 import { type Data } from '../../../types/submitedData'
 
 export default function Main() {
+  const [isScheduled, setIsScheduled] = useState(false)
   const scheduleIntervals = useTypedSelector((state) => state.scheduleIntervals)
   const candleIntervals = useTypedSelector((state) => state.candleIntervals)
   const analyseConfigs = useTypedSelector((state) => state.analyseConfigs)
@@ -33,7 +34,14 @@ export default function Main() {
       }
     }
 
-    window.api.send('schedule', data)
+    setIsScheduled(true)
+    window.api.send('start-schedule', data)
+  }
+
+  const cancelSchedule = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    e.preventDefault()
+    setIsScheduled(false)
+    window.api.send('stop-schedule', 'Stop schedule')
   }
 
   return (
@@ -43,9 +51,14 @@ export default function Main() {
       <AnalysConfigs dealType={'BUY'} />
       <AnalysConfigs dealType={'SELL'} />
       <Histogram />
-      <button type="button" className={styles.scheduleButton} onClick={handleAnalyse}>
-        START SCHEDULE
-      </button>
+      <div className={styles.scheduleButtons}>
+        <button type="button" onClick={handleAnalyse} disabled={isScheduled}>
+          START SCHEDULE
+        </button>
+        <button type="button" onClick={cancelSchedule}>
+          STOP SCHEDULE
+        </button>
+      </div>
     </div>
   )
 }

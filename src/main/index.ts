@@ -4,7 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 import { loginHandler } from './events/handlers/login'
-import { scheduleHandler } from './events/handlers/schedule'
+import { startScheduleHandler, stopScheduleHandler } from './events/handlers/schedule'
 import { readJsonSync, writeJsonSync } from './utils/files'
 import { connectDB } from './db/index'
 
@@ -80,7 +80,8 @@ function createWindow(): void {
 
   // Events
   ipcMain.on('login', loginHandler)
-  ipcMain.on('schedule', scheduleHandler)
+  ipcMain.on('start-schedule', startScheduleHandler)
+  ipcMain.on('stop-schedule', stopScheduleHandler)
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.

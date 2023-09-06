@@ -112,10 +112,16 @@ $headerMargin: 0.5rem;
   }
 }
 
-.scheduleButton {
-  margin-top: 0.5rem;
-  max-width: max-content;
-  margin-left: auto;
-  padding: 0.2rem 0.5rem;
-  cursor: pointer;
+.scheduleButtons {
+  display: flex;
+  column-gap: 0.3rem;
+
+  button {
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
 }
