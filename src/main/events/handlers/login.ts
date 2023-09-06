@@ -1,9 +1,11 @@
+import { Bot } from 'grammy'
 import { IpcMainEvent } from 'electron'
 import { TinkoffInvestApi, TinkoffApiError } from 'tinkoff-invest-api'
-import { Bot } from 'grammy'
-import mongoose from 'mongoose'
 import { CandleInterval } from 'tinkoff-invest-api/cjs/generated/marketdata'
 import { writeJsonAsync } from '../../utils/files'
+import mongoose from 'mongoose'
+// types
+import { TCredentials } from '../../../types/tinkoff'
 
 const checkTinkoffApiToken = async (token: string) => {
   try {
@@ -39,16 +41,14 @@ const checkDBUri = async (URI: string) => {
       serverSelectionTimeoutMS: 5000,
       family: 4
     })
-
-    await db.disconnect()
   } catch (error) {
     console.error(error)
     throw new Error('DB URI is invalid.')
   }
 }
 
-export const loginHandler = async (event: IpcMainEvent, data: any) => {
-  const { tinkoffApiToken, botToken, dbUri } = data
+export const loginHandler = async (event: IpcMainEvent, data: TCredentials) => {
+  const { tinkoffApiToken, botToken, dbUri, chatID } = data
   const [isTinkoffTokenValid, isBotTokenValid, isDBUriValid] = await Promise.allSettled([
     checkTinkoffApiToken(tinkoffApiToken),
     checkBotToken(botToken),
@@ -71,7 +71,7 @@ export const loginHandler = async (event: IpcMainEvent, data: any) => {
   )
     return
 
-  await writeJsonAsync('credentials', { tinkoffApiToken, botToken, dbUri })
+  await writeJsonAsync('credentials', { tinkoffApiToken, botToken, dbUri, chatID })
 
-  event.reply('login-success', { tinkoffApiToken, botToken, dbUri })
+  event.reply('login-success', { tinkoffApiToken, botToken, dbUri, chatID })
 }

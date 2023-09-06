@@ -6,11 +6,13 @@ type TAction =
   | { type: 'tinkoffApiToken'; payload: string }
   | { type: 'botToken'; payload: string }
   | { type: 'dbUri'; payload: string }
+  | { type: 'chatID'; payload: string }
 
 const initialForm = {
   tinkoffApiToken: '',
   botToken: '',
-  dbUri: ''
+  dbUri: '',
+  chatID: ''
 }
 
 const reducer = (state: typeof initialForm, action: TAction) => {
@@ -21,6 +23,8 @@ const reducer = (state: typeof initialForm, action: TAction) => {
       return { ...state, botToken: action.payload }
     case 'dbUri':
       return { ...state, dbUri: action.payload }
+    case 'chatID':
+      return { ...state, chatID: Number(action.payload) }
     default:
       return state
   }
@@ -85,6 +89,16 @@ export default function Login() {
         <label htmlFor="db-url">
           Database URI
           <input type="text" name="dbUri" id="db-url" onChange={handleChange} value={form.dbUri} />
+        </label>
+        <label htmlFor="chat-id">
+          Chat ID
+          <input
+            type="text"
+            name="chatID"
+            id="chat-id"
+            onChange={handleChange}
+            value={form.chatID}
+          />
         </label>
         <button type="submit" onClick={handleSubmit}>
           Login

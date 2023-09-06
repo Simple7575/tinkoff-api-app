@@ -1,5 +1,5 @@
 import { sendMessage } from '../bot'
-import { readInstrumnetConfigs, getCloseValues, getAllValues, getMACD } from './utils'
+import { getCloseValues, getAllValues, getMACD } from './utils'
 import { readJsonAsync } from '../utils/files'
 import { lookUpInDB } from './lookUpInDB'
 import { consoleError, consoleLog } from '../index'

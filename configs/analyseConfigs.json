@@ -1,8 +1,10 @@
 {
     "BUY": {
+        "1m": "BUY",
         "5m": "BUY"
     },
     "SELL": {
+        "1m": "BUY",
         "5m": "SELL"
     }
 }

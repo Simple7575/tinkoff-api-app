@@ -23,6 +23,7 @@ export type TCredentials = {
   tinkoffApiToken: string
   botToken: string
   dbUri: string
+  chatID: number
 }
 
 export type InstrumentConfigInterface = {
