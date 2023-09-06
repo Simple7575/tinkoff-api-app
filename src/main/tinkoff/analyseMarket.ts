@@ -104,10 +104,10 @@ export const analyseMarket = async (scheduleIntervals: IntervalTinkoff) => {
 
   for (const ticker of tickersAndClasscodes) {
     try {
-      const instrumentConfigs = await readInstrumnetConfigs(ticker.ticker)
-      if (!instrumentConfigs)
-        throw new Error(`Please provide config file for this ticker: ${ticker.ticker}`)
-      console.log(instrumentConfigs)
+      // const instrumentConfigs = await readInstrumnetConfigs(ticker.ticker)
+      // if (!instrumentConfigs)
+      //   throw new Error(`Please provide config file for this ticker: ${ticker.ticker}`)
+      // console.log(instrumentConfigs)
 
       const results = await Promise.all(
         candleIntervals.map((interval) => analyse(ticker, scheduleIntervals, interval))

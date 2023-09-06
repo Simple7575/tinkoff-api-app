@@ -52,7 +52,8 @@ function createWindow(): void {
   })
 
   // Open devtools
-  if (isDev) mainWindow.webContents.openDevTools()
+  // if (isDev) mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Loger
   consoleLog = (...args) => {
@@ -104,11 +105,13 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  createWindow()
+  connectDB()
+    .then(() => {
+      console.log('db connected.')
+    })
+    .catch((error) => consoleError(error))
 
-  connectDB().then(() => {
-    console.log('db connected.')
-  })
+  createWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
